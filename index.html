@@ -3,27 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="favicon.png">
-    <title>Butterfliege 🦋 </title>
+    <title>Butterfliege 🦋</title>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #d14b71, #a8325e);
-            color: #ffffff;
+            background: linear-gradient(135deg, #8e44ad, #c0392b);
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
             text-align: center;
         }
         h1 {
-            font-size: 3rem;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            max-width: 600px;
+            width: 100%;
+        }
+        .day {
+            background: #e74c3c;
+            color: white;
+            border-radius: 8px;
+            padding: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            opacity: 0.5;
+            pointer-events: none;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .day.openable {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .day:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+        .message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .message button {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .message button:hover {
+            background: #c0392b;
         }
     </style>
 </head>
 <body>
-    <h1>Ich hab dich lieb ❤️</h1>
+    <h1>Adventskalender ❤️</h1>
+    <div class="calendar" id="calendar">
+        <!-- 24 Tage -->
+        <div class="day" id="day1" onclick="showMessage(1)">1</div>
+        <div class="day" id="day2" onclick="showMessage(2)">2</div>
+        <div class="day" id="day3" onclick="showMessage(3)">3</div>
+        <div class="day" id="day4" onclick="showMessage(4)">4</div>
+        <div class="day" id="day5" onclick="showMessage(5)">5</div>
+        <div class="day" id="day6" onclick="showMessage(6)">6</div>
+        <div class="day" id="day7" onclick="showMessage(7)">7</div>
+        <div class="day" id="day8" onclick="showMessage(8)">8</div>
+        <div class="day" id="day9" onclick="showMessage(9)">9</div>
+        <div class="day" id="day10" onclick="showMessage(10)">10</div>
+        <div class="day" id="day11" onclick="showMessage(11)">11</div>
+        <div class="day" id="day12" onclick="showMessage(12)">12</div>
+        <div class="day" id="day13" onclick="showMessage(13)">13</div>
+        <div class="day" id="day14" onclick="showMessage(14)">14</div>
+        <div class="day" id="day15" onclick="showMessage(15)">15</div>
+        <div class="day" id="day16" onclick="showMessage(16)">16</div>
+        <div class="day" id="day17" onclick="showMessage(17)">17</div>
+        <div class="day" id="day18" onclick="showMessage(18)">18</div>
+        <div class="day" id="day19" onclick="showMessage(19)">19</div>
+        <div class="day" id="day20" onclick="showMessage(20)">20</div>
+        <div class="day" id="day21" onclick="showMessage(21)">21</div>
+        <div class="day" id="day22" onclick="showMessage(22)">22</div>
+        <div class="day" id="day23" onclick="showMessage(23)">23</div>
+        <div class="day" id="day24" onclick="showMessage(24)">24</div>
+    </div>
+
+    <div class="message" id="messageBox">
+        <p id="messageText"></p>
+        <button onclick="closeMessage()">Schließen</button>
+    </div>
+
+    <script>
+        const messages = [
+            "Du bist mein Sonnenschein. ☀️",
+            "Ich liebe dein Lächeln. 😊",
+            "Du machst mich so glücklich. ❤️",
+            "Jeder Moment mit dir ist ein Geschenk. 🎁",
+            "Ich denke immer an dich. 💭",
+            "Du bist mein Lieblingsmensch. 🌟",
+            "Mit dir fühlt sich alles besser an. 🥰",
+            "Du bist einfach wundervoll. 🌹",
+            "Ich liebe deine kleinen Eigenarten. 😘",
+            "Du bist meine Inspiration. ✨",
+            "Ich bin so froh, dass es dich gibt. 🎉",
+            "Du bist mein Herz. ❤️",
+            "Ich kann nicht ohne dich sein. 💞",
+            "Du bist mein Zuhause. 🏡",
+            "Du bringst mich immer zum Lachen. 😂",
+            "Ich schätze alles an dir. 🙏",
+            "Du bist mein bester Freund und meine große Liebe. 💑",
+            "Mit dir ist jeder Tag ein Abenteuer. 🌍",
+            "Ich liebe deine Stärke. 💪",
+            "Du bist meine Ruhe in stürmischen Zeiten. 🌊",
+            "Du bist mein Traum, der wahr geworden ist. 🌟",
+            "Ich liebe dich mehr, als Worte sagen können. 📝",
+            "Du bist mein Glücksstern. 🌟",
+            "Du bist die Liebe meines Lebens. ❤️"
+        ];
+
+        function showMessage(day) {
+            const messageText = messages[day - 1];
+            document.getElementById("messageText").innerText = messageText;
+            document.getElementById("messageBox").style.display = "block";
+        }
+
+        function closeMessage() {
+            document.getElementById("messageBox").style.display = "none";
+        }
+
+        function unlockDays() {
+            const firstDay = new Date('2024-12-01T00:00:00');
+            const now = new Date();
+            const diffTime = now - firstDay;
+
+            if (diffTime >= 0) {
+                const daysSinceStart = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                for (let i = 1; i <= daysSinceStart && i <= 24; i++) {
+                    const dayElement = document.getElementById(`day${i}`);
+                    dayElement.classList.add("openable");
+                }
+            }
+        }
+
+        // Rufe die Funktion auf, um die Türen basierend auf dem Timer freizuschalten
+        unlockDays();
+    </script>
 </body>
 </html>
+
