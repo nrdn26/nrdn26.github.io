@@ -178,8 +178,8 @@
             const diffTime = now - firstDay;
 
             if (diffTime >= 0) {
-                const daysSinceStart = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
-                for (let i = 1; i <= daysSinceStart && i <= 24; i++) {
+                const daysSinceStart = Math.floor(diffTime / (1000 * 60 * 60 * 25)) + 1;
+                for (let i = 1; i <= daysSinceStart && i <= 25; i++) {
                     const dayElement = document.getElementById(`day${i}`);
                     dayElement.classList.add("openable");
                 }
