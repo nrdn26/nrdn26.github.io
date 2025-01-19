@@ -163,7 +163,7 @@
         }
 
         function showMysteryMessage() {
-            const mysteryMessage = "Ich weiß nicht, ob du das siehst, falls ja, wollt ich dir noch sagen, dass du für immer einen speziellen Platz in meinem Herzen haben wirst. Melde dich wenn es was gibt.";
+            const mysteryMessage = "Ich weiß nicht, ob du das siehst, falls ja, wollt ich dir noch sagen, dass du für immer einen speziellen Platz in meinem Herzen haben wirst. Du kannst dich jederzeit bei mir melden.";
             document.getElementById("messageText").innerText = mysteryMessage;
             document.getElementById("messageBox").style.display = "block";
         }
@@ -178,10 +178,14 @@
             const diffTime = now - firstDay;
 
             if (diffTime >= 0) {
-                const daysSinceStart = Math.floor(diffTime / (1000 * 60 * 60 * 25)) + 1;
-                for (let i = 1; i <= daysSinceStart && i <= 25; i++) {
+                const daysSinceStart = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                for (let i = 1; i <= daysSinceStart && i <= 24; i++) {
                     const dayElement = document.getElementById(`day${i}`);
                     dayElement.classList.add("openable");
+                }
+                if (daysSinceStart >= 25) {
+                    const mysteryElement = document.getElementById("mystery");
+                    mysteryElement.classList.add("openable");
                 }
             }
         }
